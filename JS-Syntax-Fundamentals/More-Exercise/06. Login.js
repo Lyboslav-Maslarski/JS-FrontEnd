@@ -8,7 +8,7 @@ function solve(input) {
         if (input[i] === password) {
             break;
         } else if (i !== 4) {
-            console.log('Incorrect password. Try again.')
+            console.log('Incorrect password. Try again.');
         } else {
             isBlocked = true;
             break;
@@ -16,12 +16,8 @@ function solve(input) {
     }
 
     if (isBlocked) {
-        console.log(`User ${username} blocked!`)
+        console.log(`User ${username} blocked!`);
     } else {
-        console.log(`User ${username} logged in.`)
+        console.log(`User ${username} logged in.`);
     }
 }
-
-solve(['Acer', 'login', 'go', 'let me in', 'recA'])
-solve(['momo', 'omom'])
-solve(['sunny', 'rainy', 'cloudy', 'sunny', 'not sunny'])
