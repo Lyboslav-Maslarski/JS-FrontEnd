@@ -9,7 +9,7 @@ function checkPassword(password) {
         output.push('Password must consist only of letters and digits');
     }
 
-    if (!/\d.*\d/.test(password)) {
+    if ([...password.matchAll(/\d/g)].length < 2) {
         output.push('Password must have at least 2 digits');
     }
 

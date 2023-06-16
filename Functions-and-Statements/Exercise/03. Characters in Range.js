@@ -1,16 +1,13 @@
 function printCharsFromTo(char1, char2) {
     let first = char1.charCodeAt(0);
     let second = char2.charCodeAt(0);
-    let result = [];
+    
+    let start = Math.min(first, second);
+    let end = Math.max(first, second);
 
-    if (first < second) {
-        for (let i = first + 1; i < second; i++) {
-            result.push(String.fromCharCode(i));
-        }
-    } else {
-        for (let i = second + 1; i < first; i++) {
-            result.push(String.fromCharCode(i));
-        }
+    let result = [];
+    for (let i = start + 1; i < end; i++) {
+        result.push(String.fromCharCode(i));
     }
 
     console.log(result.join(' '));
