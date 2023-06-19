@@ -5,6 +5,7 @@ function registerHeroes(input) {
         let hero = { heroName, level: Number(level), items };
         heroes.push(hero);
     }
+    
     heroes.sort((f, s) => f.level - s.level)
         .forEach(h => {
             console.log(`Hero: ${h.heroName}`);

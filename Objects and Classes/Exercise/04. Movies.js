@@ -3,23 +3,21 @@ function moviesInfo(input) {
 
     for (const line of input) {
         if (line.includes('addMovie')) {
-            let movieName = line.substring(line.indexOf(' ') + 1);
+            let movieName = line.split('addMovie ')[1];
             let currentMovie = { name: movieName };
             movies.push(currentMovie);
 
         } else if (line.includes('directedBy')) {
-            let movieName = line.substring(0, line.indexOf('directedBy') - 1);
+            let [movieName, directorName] = line.split(' directedBy ');
             let currentMovie = movies.find(m => m.name === movieName);
-            if (currentMovie !== undefined) {
-                let directorName = line.substring(line.indexOf('directedBy') + 11);
+            if (currentMovie) {
                 currentMovie['director'] = directorName;
             }
 
         } else {
-            let movieName = line.substring(0, line.indexOf('onDate') - 1);
+            let [movieName, date] = line.split(' onDate ');
             let currentMovie = movies.find(m => m.name === movieName);
-            if (currentMovie !== undefined) {
-                let date = line.substring(line.indexOf('onDate') + 7);
+            if (currentMovie) {
                 currentMovie['date'] = date;
             }
         }
