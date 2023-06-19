@@ -1,15 +1,10 @@
 function storeProvision(stock, order) {
     let products = {};
-    
-    for (let i = 0; i < stock.length; i += 2) {
-        let name = stock[i];
-        let quantity = stock[i + 1];
-        products[name] = Number(quantity);
-    }
+    let combined = [...stock, ...order];
 
-    for (let i = 0; i < order.length; i += 2) {
-        let name = order[i];
-        let quantity = order[i + 1];
+    for (let i = 0; i < combined.length; i += 2) {
+        let name = combined[i];
+        let quantity = combined[i + 1];
         if (products.hasOwnProperty(name)) {
             products[name] = products[name] + Number(quantity);
         } else {
@@ -17,8 +12,6 @@ function storeProvision(stock, order) {
         }
     }
 
-    let entires = Object.entries(products);
-    for (const [key, value] of entires) {
-        console.log(`${key} -> ${value}`);
-    }
+    Object.entries(products)
+        .forEach(([key, value]) => console.log(`${key} -> ${value}`));
 }
