@@ -1,38 +1,25 @@
 function uniqueArrays(input) {
+    input = input.map(arr => JSON.parse(arr));
+    input.forEach(arr => arr.sort((f, s) => s - f));
+
     let uniqueArrays = [];
     for (let i = 0; i < input.length; i++) {
-        let firstArr = JSON.parse(input[i]);
+        let firstArr = input[i];
+        let isUnique = true;
 
-        for (let j = i + 1; j < input.length; j++) {
-            let secondArr = JSON.parse(input[j]);
-            if (firstArr.length !== secondArr.length) {
-                continue;
+        for (let j = 0; j < uniqueArrays.length; j++) {
+            let secondArr = uniqueArrays[j];
+            if (firstArr.toString() === secondArr.toString()) {
+                isUnique = false;
+                break;
             }
-            let arraysAreTheSame = true;
-            for (let k = 0; k < firstArr.length; k++) {
-                let element = firstArr[k];
-                let found = secondArr.includes(element);
-                if (!found) {
-                    arraysAreTheSame = false;
-                }
-            }
-            if (arraysAreTheSame) {
-                input.splice(j, 1);
-                    j--;
-            }
+        }
+        if (isUnique) {
+            uniqueArrays.push(firstArr);
         }
     }
 
-    input.sort((f, s) => f.length - s.length).forEach(arr => {
-        arr = JSON.parse(arr);
-        arr.sort((f, s) => s - f);
-        console.log(arr);
-    });
-
+    uniqueArrays
+        .sort((f, s) => f.length - s.length)
+        .forEach(arr => console.log(`[${arr.join(', ')}]`));
 }
-
-uniqueArrays(["[7.14, 7.180, 7.339, 80.099]",
-"[7.339, 80.0990, 7.140000, 7.18]",
-"[7.339, 7.180, 7.14, 80.099]"]
-
-)
