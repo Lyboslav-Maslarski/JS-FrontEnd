@@ -1,3 +1,4 @@
 function colorize() {
-    // TODO
+    let evenRows = document.querySelectorAll('tr:nth-child(even)');
+    [...evenRows].forEach(row => row.style.background = 'Teal');
 }
