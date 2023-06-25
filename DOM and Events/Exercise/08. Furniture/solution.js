@@ -82,9 +82,9 @@ function solve() {
 
     let avgDecF = rowsChecked > 0 ? sumDecF / rowsChecked : 0;
 
-    buyTextArea.value += `Bought furniture: ${soldItems.join(', ')}\n`;
-    buyTextArea.value += `Total price: ${sumPrice.toFixed(2)}\n`;
-    buyTextArea.value += `Average decoration factor: ${avgDecF}`;
+    buyTextArea.value = `Bought furniture: ${soldItems.join(', ')}\n`
+      + `Total price: ${sumPrice.toFixed(2)}\n`
+      + `Average decoration factor: ${avgDecF}`;
 
   }
 }
