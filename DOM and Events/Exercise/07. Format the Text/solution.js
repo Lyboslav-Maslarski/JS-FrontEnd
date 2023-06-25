@@ -5,7 +5,7 @@ function solve() {
 
   while (sentences.length > 0) {
     let currentSentences = sentences.splice(0, 3);
-    let text = currentSentences.map(s => s = s.trim()).join('. ') + '.';
+    let text = currentSentences.map(s => s = s.trim()).join('.') + '.';
 
     let newP = document.createElement('p');
     newP.textContent = text;
