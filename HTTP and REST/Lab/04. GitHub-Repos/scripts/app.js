@@ -1,5 +1,5 @@
 function loadRepos() {
-   const URL = 'https://api.github.com/users/testnakov/reposs';
+   const URL = 'https://api.github.com/users/testnakov/repos';
    const result = document.getElementById('res');
    fetch(URL, { method: 'GET' })
       .then(res => res.text())
