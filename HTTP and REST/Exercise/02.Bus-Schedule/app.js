@@ -1,10 +1,29 @@
 function solve() {
-    function depart() {
-        // TODO: 
+    const infoContainer = document.querySelector('.info');
+    const departBtn = document.getElementById('depart');
+    const arriveBtn = document.getElementById('arrive');
+    const URL = 'http://localhost:3030/jsonstore/bus/schedule/';
+    let depotId = 'depot';
+    let stopName = '';
+
+
+    async function depart() {
+        departBtn.disabled = true;
+        arriveBtn.disabled = false;
+
+        let depotInfo = await fetch(URL + depotId);
+        depotInfo = await depotInfo.json();
+        depotId = depotInfo.next;
+        stopName = depotInfo.name;
+
+        infoContainer.textContent = `Next stop ${stopName}`;
     }
 
     async function arrive() {
-        // TODO:
+        departBtn.disabled = false;
+        arriveBtn.disabled = true;
+
+        infoContainer.textContent = `Arriving at ${stopName}`;
     }
 
     return {
