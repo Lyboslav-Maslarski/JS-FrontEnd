@@ -10,13 +10,18 @@ function solve() {
     async function depart() {
         departBtn.disabled = true;
         arriveBtn.disabled = false;
+        try {
+            let depotInfo = await fetch(URL + depotId);
+            depotInfo = await depotInfo.json();
+            depotId = depotInfo.next;
+            stopName = depotInfo.name;
 
-        let depotInfo = await fetch(URL + depotId);
-        depotInfo = await depotInfo.json();
-        depotId = depotInfo.next;
-        stopName = depotInfo.name;
-
-        infoContainer.textContent = `Next stop ${stopName}`;
+            infoContainer.textContent = `Next stop ${stopName}`;
+        } catch (err) {
+            departBtn.disabled = true;
+            arriveBtn.disabled = true;
+            infoContainer.textContent = 'Error';
+        }
     }
 
     async function arrive() {
