@@ -11,6 +11,8 @@ function attachEvents() {
     async function submitMessage() {
         let message = { author: authorInput.value, content: contentInput.value };
         await fetch(url, { method: 'POST', body: JSON.stringify(message) });
+        authorInput.value = '';
+        contentInput.value = '';
         loadAllMessages();
     }
 
