@@ -1,1 +1,3 @@
-console.log('TODO:// Implement Home functionality');
+window.addEventListener('load', () => {
+    document.getElementById('user').style.display = 'none';
+})
