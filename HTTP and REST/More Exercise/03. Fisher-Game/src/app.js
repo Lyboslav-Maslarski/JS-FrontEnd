@@ -1,7 +1,6 @@
 const url = 'http://localhost:3030/data/catches/';
 let userData = JSON.parse(sessionStorage.getItem('userData'));
 const catches = document.getElementById('catches');
-catches.innerHTML = '';
 
 if (userData !== null && userData.accessToken) {
     document.getElementById('guest').style.display = 'none';
@@ -9,6 +8,7 @@ if (userData !== null && userData.accessToken) {
     document.querySelector('button.add').disabled = false;
 } else {
     document.getElementById('user').style.display = 'none';
+    catches.innerHTML = '';
 }
 
 document.getElementById('logout').addEventListener('click', logoutUser);
@@ -25,18 +25,17 @@ async function logoutUser() {
 }
 
 async function loadCatches() {
-    catches.innerHTML = '';
 
     let allCatches = await fetch(url, { method: 'GET' });
     allCatches = await allCatches.json();
+    catches.replaceChildren(
+        allCatches.map(c => {
+            let hasPermission = userData && userData.id === c._ownerId;
+            const div = document.createElement('div');
+            div.className = 'catch';
+            div.setAttribute('owner', c._ownerId);
 
-    allCatches.forEach(c => {
-        let hasPermission = userData && userData.id === c._ownerId;
-        const div = document.createElement('div');
-        div.classList.add('catch');
-        div.setAttribute('owner', c._ownerId);
-
-        div.innerHTML = `
+            div.innerHTML = `
         <label>Angler</label>
         <input type="text" class="angler" value="${c.angler}">
         <label>Weight</label>
@@ -51,27 +50,27 @@ async function loadCatches() {
         <input type="number" class="captureTime" value="${c.captureTime}">
         `;
 
-        let updateBtn = document.createElement('button');
-        updateBtn.addEventListener('click', updateCatch);
-        updateBtn.setAttribute('data-id', c._id);
-        updateBtn.classList.add('update');
-        updateBtn.textContent = 'Update';
+            let updateBtn = document.createElement('button');
+            updateBtn.addEventListener('click', updateCatch);
+            updateBtn.setAttribute('data-id', c._id);
+            updateBtn.classList.add('update');
+            updateBtn.textContent = 'Update';
 
-        let deleteBtn = document.createElement('button');
-        deleteBtn.addEventListener('click', deleteCatch);
-        deleteBtn.setAttribute('data-id', c._id);
-        deleteBtn.classList.add('delete');
-        deleteBtn.textContent = 'Delete';
+            let deleteBtn = document.createElement('button');
+            deleteBtn.addEventListener('click', deleteCatch);
+            deleteBtn.setAttribute('data-id', c._id);
+            deleteBtn.classList.add('delete');
+            deleteBtn.textContent = 'Delete';
 
-        if (!hasPermission) {
-            updateBtn.disabled = true;
-            deleteBtn.disabled = true;
-        }
+            if (!hasPermission) {
+                updateBtn.disabled = 'true';
+                deleteBtn.disabled = 'true';
+            }
 
-        div.append(updateBtn, deleteBtn);
+            div.append(updateBtn, deleteBtn);
 
-        catches.appendChild(div);
-    });
+            return div;
+        }));
 
 }
 
@@ -97,7 +96,6 @@ async function updateCatch(e) {
         },
         body: JSON.stringify(updatedCatch)
     });
-    loadCatches();
 }
 
 async function deleteCatch(e) {
@@ -108,7 +106,6 @@ async function deleteCatch(e) {
             'X-Authorization': userData.accessToken,
         }
     });
-    loadCatches();
 }
 
 async function addCatch(e) {
@@ -133,5 +130,4 @@ async function addCatch(e) {
         },
         body: JSON.stringify(newCatch)
     });
-    loadCatches();
 }
