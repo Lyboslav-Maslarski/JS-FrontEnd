@@ -1,5 +1,7 @@
 const url = 'http://localhost:3030/data/catches/';
+
 let userData = JSON.parse(sessionStorage.getItem('userData'));
+
 const catches = document.getElementById('catches');
 
 if (userData !== null && userData.accessToken) {
@@ -12,7 +14,7 @@ if (userData !== null && userData.accessToken) {
 }
 
 document.getElementById('logout').addEventListener('click', logoutUser);
-document.querySelector('button.load').addEventListener('click', loadCatches);
+document.querySelector('button.load').addEventListener('click', loadData);
 document.querySelector('button.add').addEventListener('click', addCatch);
 
 async function logoutUser() {
@@ -24,54 +26,37 @@ async function logoutUser() {
     window.location = 'index.html';
 }
 
-async function loadCatches() {
+async function loadData() {
+    const res = await fetch(url);
+    const data = await res.json();
+    catches.replaceChildren(...data.map(createCatch));
+}
 
-    let allCatches = await fetch(url, { method: 'GET' });
-    allCatches = await allCatches.json();
-    catches.replaceChildren(
-        allCatches.map(c => {
-            let hasPermission = userData && userData.id === c._ownerId;
-            const div = document.createElement('div');
-            div.className = 'catch';
-            div.setAttribute('owner', c._ownerId);
+function createCatch(item) {
+    const isOwner = (userData && item._ownerId == userData.id)
 
-            div.innerHTML = `
-        <label>Angler</label>
-        <input type="text" class="angler" value="${c.angler}">
-        <label>Weight</label>
-        <input type="text" class="weight" value="${c.weight}">
-        <label>Species</label>
-        <input type="text" class="species" value="${c.species}">
-        <label>Location</label>
-        <input type="text" class="location" value="${c.location}">
-        <label>Bait</label>
-        <input type="text" class="bait" value="${c.bait}">
-        <label>Capture Time</label>
-        <input type="number" class="captureTime" value="${c.captureTime}">
-        `;
+    const element = document.createElement('div');
+    element.className = 'catch';
+    element.innerHTML = `
+    <label>Angler</label>
+    <input type="text" class="angler" value="${item.angler}" ${isOwner ? '' : 'disabled'}>
+    <label>Weight</label>
+    <input type="text" class="weight" value="${item.weight}" ${isOwner ? '' : 'disabled'}>
+    <label>Species</label>
+    <input type="text" class="species" value="${item.species}" ${isOwner ? '' : 'disabled'}>
+    <label>Location</label>
+    <input type="text" class="location" value="${item.location}" ${isOwner ? '' : 'disabled'}>
+    <label>Bait</label>
+    <input type="text" class="bait" value="${item.bait}" ${isOwner ? '' : 'disabled'}>
+    <label>Capture Time</label>
+    <input type="number" class="captureTime" value="${item.captureTime}" ${isOwner ? '' : 'disabled'}>
+    <button class="update" data-id="${item._id}" ${isOwner ? '' : 'disabled'}>Update</button>
+    <button class="delete" data-id="${item._id}" ${isOwner ? '' : 'disabled'}>Delete</button>`;
 
-            let updateBtn = document.createElement('button');
-            updateBtn.addEventListener('click', updateCatch);
-            updateBtn.setAttribute('data-id', c._id);
-            updateBtn.classList.add('update');
-            updateBtn.textContent = 'Update';
+    element.querySelector('button.update').addEventListener('click', updateCatch);
+    element.querySelector('button.delete').addEventListener('click', deleteCatch);
 
-            let deleteBtn = document.createElement('button');
-            deleteBtn.addEventListener('click', deleteCatch);
-            deleteBtn.setAttribute('data-id', c._id);
-            deleteBtn.classList.add('delete');
-            deleteBtn.textContent = 'Delete';
-
-            if (!hasPermission) {
-                updateBtn.disabled = 'true';
-                deleteBtn.disabled = 'true';
-            }
-
-            div.append(updateBtn, deleteBtn);
-
-            return div;
-        }));
-
+    return element;
 }
 
 async function updateCatch(e) {
