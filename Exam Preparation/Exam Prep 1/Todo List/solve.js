@@ -46,10 +46,10 @@ function attachEvents() {
         loadAllTasks(e);
     }
 
-    async function removeTask(e) {
+    function removeTask(e) {
         let id = this.id;
-        fetch(url + id, { method: 'DELETE', });
-        loadAllTasks(e);
+        fetch(url + id, { method: 'DELETE', })
+            .then(() => loadAllTasks(e));
     }
 
     function editTask(e) {
