@@ -11,7 +11,7 @@ function solve() {
             author.value === '' || date.value === '') {
             return;
         }
-        const container = document.getElementsByClassName('all-hits-container')[0];
+        const container = document.querySelector('.all-hits-container');
         const div = document.createElement('div');
         div.classList.add('hits-info');
 
@@ -66,13 +66,13 @@ function solve() {
         parent.remove();
         newDiv.children[5].remove();
         newDiv.children[5].remove();
-        let saveContainer = document.getElementsByClassName('saved-container')[0];
-        newDiv.getElementsByClassName('delete-btn')[0].addEventListener('click', deleteSong);
+        let saveContainer = document.querySelector('.saved-container');
+        newDiv.querySelector('.delete-btn').addEventListener('click', deleteSong);
         saveContainer.appendChild(newDiv);
     }
 
     function likeSong(e) {
-        const likesContainer = document.getElementsByClassName('likes')[0].children[0];
+        const likesContainer = document.querySelector('.likes').children[0];
         let likes = Number(likesContainer.textContent.split(': ')[1]);
         likes++;
         likesContainer.textContent = 'Total Likes: ' + likes;
