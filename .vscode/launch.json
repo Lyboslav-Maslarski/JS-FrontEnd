@@ -12,7 +12,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "C:/Users/lyb4o/OneDrive/Desktop/JS-FrontEnd/HTTP and REST/More Exercise/03. Fisher-Game/tests"
+                "C:/Users/lyb4o/OneDrive/Desktop/JS-FrontEnd/Exam Preparation/Exam Prep 2/Grocery List/tests"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "name": "Mocha Tests",
