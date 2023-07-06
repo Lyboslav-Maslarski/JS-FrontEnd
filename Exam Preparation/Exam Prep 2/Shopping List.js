@@ -26,12 +26,3 @@ function solve(input) {
 
     console.log(groceries.join(', '));
 }
-
-solve(["Milk!Pepper!Salt!Water!Banana",
-    "Urgent Salt",
-    "Unnecessary Grapes",
-    "Correct Pepper Onion",
-    "Rearrange Grapes",
-    "Correct Tomatoes Potatoes",
-    "Go Shopping!"]
-)
