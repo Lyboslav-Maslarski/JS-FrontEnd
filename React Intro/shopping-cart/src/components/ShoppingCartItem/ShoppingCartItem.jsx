@@ -1,6 +1,7 @@
 import { ReactComponent as BuyIcon } from "../../assets/buy-icon.svg";
 import { ReactComponent as RemoveIcon } from "../../assets/remove-icon.svg";
 import { buyProduct, removeProduct } from "../../services/product-service";
+import { toast } from "react-toastify";
 
 function ShoppingCartItem(props) {
   const { name, cost, imgUrl, isBought, _id, setRefreshProducts } = props;
@@ -10,16 +11,38 @@ function ShoppingCartItem(props) {
   const handleBuyItem = () => {
     buyProduct(_id)
       .then(() => {
+        toast("Product bought!", {
+          type: "info",
+          position: "bottom-center",
+          theme: "colored",
+        });
         setRefreshProducts({});
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        toast("Error!", {
+          type: "error",
+          position: "bottom-center",
+          theme: "dark",
+        })
+      );
   };
   const handleRemoveItem = () => {
     removeProduct(_id)
       .then(() => {
+        toast(`Product: ${name} removed!`, {
+          type: "warning",
+          position: "bottom-center",
+          theme: "colored",
+        });
         setRefreshProducts({});
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        toast("Error!", {
+          type: "error",
+          position: "bottom-center",
+          theme: "dark",
+        })
+      );
   };
   return (
     <article style={inlineStyles} className="shopping-cart__item-container">

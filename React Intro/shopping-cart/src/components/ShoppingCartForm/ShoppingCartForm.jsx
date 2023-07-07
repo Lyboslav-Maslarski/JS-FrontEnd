@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { ReactComponent as AddIcon } from "../../assets/add-icon.svg";
 import { addProductToCart } from "../../services/product-service";
+import { toast } from "react-toastify";
 
-function ShoppingCartForm({setRefreshProducts}) {
+function ShoppingCartForm({ setRefreshProducts }) {
   let [itemName, setItemName] = useState("");
   let [itemCost, setItemCost] = useState("");
   let [itemImgUrl, setItemImgUrl] = useState("");
@@ -16,8 +17,19 @@ function ShoppingCartForm({setRefreshProducts}) {
         setItemName("");
         setItemCost("");
         setItemImgUrl("");
+        toast("Product added!", {
+          type: "success",
+          position: "bottom-center",
+          theme: "light",
+        });
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        toast("Error!", {
+          type: "error",
+          position: "bottom-center",
+          theme: "dark",
+        })
+      );
   };
 
   return (
