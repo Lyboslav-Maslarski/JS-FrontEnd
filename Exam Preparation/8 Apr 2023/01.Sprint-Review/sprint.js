@@ -68,10 +68,9 @@ function solve(input) {
     }
 
     function calculatePoints(status) {
-        return Object.values(assignees).reduce((totalPoints, tasks) => {
-            return totalPoints += tasks.filter(t => t.status === status)
-                .reduce((acc, current) => acc += current.points, 0);
-        }, 0);
+        return Object.values(assignees).flat()
+            .filter(t => t.status === status)
+            .reduce((acc, task) => acc += task.points, 0);
     }
 }
 solve([
