@@ -11,11 +11,12 @@ const selectors = {
     courseType: document.getElementById('course-type'),
     description: document.getElementById('description'),
     teacherName: document.getElementById('teacher-name'),
+    form: document.querySelector('form')
 };
 
 selectors.loadCoursesBtn.addEventListener('click', loadCourses);
-selectors.loadCoursesBtn.addEventListener('click', addCourse);
-selectors.loadCoursesBtn.addEventListener('click', editCourse);
+selectors.addCourseBtn.addEventListener('click', addCourse);
+selectors.editCourseBtn.addEventListener('click', editCourse);
 
 async function loadCourses() {
     const coursesList = await (await fetch(API_URL, { method: 'GET' })).json();
@@ -48,7 +49,7 @@ async function loadCourses() {
         editBtn.textContent = 'Edit Course';
         editBtn.classList.add('edit-btn');
         editBtn.setAttribute('id', c._id);
-        finishBtn.addEventListener('click', fillForm);
+        editBtn.addEventListener('click', fillForm);
         container.appendChild(editBtn);
 
         const finishBtn = document.createElement('button');
@@ -62,13 +63,29 @@ async function loadCourses() {
     });
 }
 
-async function addCourse() {
+async function addCourse(e) {
+    e.preventDefault();
+    const course = {
+        title: selectors.courseName.value,
+        type: selectors.courseType.value,
+        description: selectors.description.value,
+        teacher: selectors.teacherName.value,
+    };
+    await fetch(API_URL, { method: 'POST', body: JSON.stringify(course) });
 
+    selectors.form.reset();
+    loadCourses();
 }
 
 async function editCourse(e) {
-    let course = courses[id];
-    await fetch(API_URL+id)
+    let course = {
+        title: selectors.courseName.value,
+        type: selectors.courseType.value,
+        description: selectors.description.value,
+        teacher: selectors.teacherName.value,
+    };
+
+    await fetch(API_URL + id, { method: 'PUT', body: JSON.stringify(course) });
     selectors.addCourseBtn.disabled = false;
     selectors.editCourseBtn.disabled = true;
 }
